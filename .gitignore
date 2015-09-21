@@ -3,5 +3,7 @@
 *.userprefs
 **/test-results/
 **/bin/ 
+**/obj/
+*.user*
 *.usertasks 
 *~
