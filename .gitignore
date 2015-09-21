@@ -1,0 +1,7 @@
+*.pidb
+*.resources
+*.userprefs
+**/test-results/
+**/bin/ 
+*.usertasks 
+*~
