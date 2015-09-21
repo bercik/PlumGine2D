@@ -17,12 +17,15 @@ namespace PlumGine2D
 	{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
+		Engine engine;
 
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";	            
-			graphics.IsFullScreen = true;		
+
+			engine = new Engine(new Point(1600, 900), new Point(1280, 720), new Point(10, 10),
+				false, graphics);
 		}
 
 		/// <summary>
@@ -48,6 +51,9 @@ namespace PlumGine2D
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			//TODO: use this.Content to load your game content here 
+			Texture2D ballTexture = Content.Load<Texture2D>("ball");
+			IGameObject ballObject = new DrawObject(ballTexture, 10.0f, 20.0f);
+			engine.addGameObject(ballObject);
 		}
 
 		/// <summary>
@@ -79,6 +85,7 @@ namespace PlumGine2D
 			graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 		
 			//TODO: Add your drawing code here
+			engine.draw(spriteBatch);
             
 			base.Draw(gameTime);
 		}
