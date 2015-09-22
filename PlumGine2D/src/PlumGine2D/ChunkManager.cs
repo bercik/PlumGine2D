@@ -8,20 +8,18 @@ namespace PlumGine2D
 {
 	public class ChunkManager
 	{
-		private Point logicScreenResolution;
-		private Point mapSize;
+		private Engine engine;
 
 		private Chunk[,] chunks;
 
-		public ChunkManager(Point logicScreenResolution, Point mapSize)
+		public ChunkManager(Engine engine)
 		{
-			this.logicScreenResolution = logicScreenResolution;
-			this.mapSize = mapSize;
+			this.engine = engine;
 
-			this.chunks = new Chunk[mapSize.X, mapSize.Y];
-			for (int x = 0; x < mapSize.X; ++x)
+			this.chunks = new Chunk[engine.mapSize.X, engine.mapSize.Y];
+			for (int x = 0; x < engine.mapSize.X; ++x)
 			{
-				for (int y = 0; y < mapSize.Y; ++y)
+				for (int y = 0; y < engine.mapSize.Y; ++y)
 				{
 					chunks[x, y] = new Chunk();
 				}
@@ -30,18 +28,18 @@ namespace PlumGine2D
 
 		public void addGameObject(IGameObject obj)
 		{
-			if (obj.getWidth() > logicScreenResolution.X
-			    || obj.getHeight() > logicScreenResolution.Y)
+			if (obj.getSize().X > engine.logicScreenResolution.X
+				|| obj.getSize().Y > engine.logicScreenResolution.Y)
 			{
 				throw new ArgumentException(
 					"Object width and height must be less than logicScreenResolution");
 			}
 
-			int x = (int)obj.getX() / logicScreenResolution.X;
-			int y = (int)obj.getX() / logicScreenResolution.Y;
+			int x = (int)obj.getPosLeftTop().X / engine.logicScreenResolution.X;
+			int y = (int)obj.getPosLeftTop().Y / engine.logicScreenResolution.Y;
 
-			if (x < 0 || x > mapSize.X ||
-			    y < 0 || y > mapSize.Y)
+			if (x < 0 || x > engine.mapSize.X ||
+				y < 0 || y > engine.mapSize.Y)
 			{
 				throw new ArgumentException("Object position exceed map size");
 			}
@@ -51,20 +49,28 @@ namespace PlumGine2D
 
 		public List<Chunk> getChunks(Vector2 pos)
 		{
-			List<Chunk> result = new List<Chunk>(4);
+			List<Chunk> result = new List<Chunk>();
 
-			int x = (int)pos.X / logicScreenResolution.X;
-			int y = (int)pos.Y / logicScreenResolution.Y;
+			int x = (int)pos.X / engine.logicScreenResolution.X;
+			int y = (int)pos.Y / engine.logicScreenResolution.Y;
 
-			int[] xs = { x, x, x - 1, x - 1 };
-			int[] ys = { y, y - 1, y, y - 1 };
-
-			for (int i = 0; i < 4; ++i)
+			int radius = 1;
+			if (engine.scale < 1.0f)
 			{
-				if (xs[i] >= 0 && xs[i] < mapSize.X
-				    && ys[i] >= 0 && ys[i] < mapSize.Y)
+				radius = 2;
+			}
+
+			for (int i = -radius; i <= radius; ++i)
+			{
+				for (int j = -radius; j <= radius; ++j)
 				{
-					result.Add(chunks[xs[i], ys[i]]);
+					int tmpX = x + i;
+					int tmpY = y + j;
+					if (tmpX >= 0 && tmpX < engine.mapSize.X
+						&& tmpY >= 0 && tmpY < engine.mapSize.Y)
+					{
+						result.Add(chunks[tmpX, tmpY]);
+					}
 				}
 			}
 

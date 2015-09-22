@@ -7,19 +7,15 @@ namespace PlumGine2D
 {
 	public class DrawObject : IDrawObject
 	{
-		private float x;
-		private float y;
-		private float width;
-		private float height;
+		private Vector2 centerPos;
+		private Vector2 size;
 		private Texture2D texture;
 
 		public DrawObject(Texture2D texture, float x, float y)
 		{
 			this.texture = texture;
-			this.x = x;
-			this.y = y;
-			this.width = texture.Width;
-			this.height = texture.Height;
+			this.centerPos = new Vector2(x, y);
+			this.size = new Vector2(texture.Width, texture.Height);
 		}
 
 		public Texture2D getTexture()
@@ -27,34 +23,19 @@ namespace PlumGine2D
 			return texture;
 		}
 
-		public float getX()
+		public Vector2 getPosLeftTop()
 		{
-			return x;
+			return (centerPos - (size * 0.5f));
 		}
 
-		public float getY()
+		public Vector2 getPosCenter()
 		{
-			return y;
-		}
-
-		public float getWidth()
-		{
-			return width;
-		}
-
-		public float getHeight()
-		{
-			return height;
-		}
-
-		public Vector2 getPos()
-		{
-			return new Vector2(x, y);
+			return centerPos;
 		}
 
 		public Vector2 getSize()
 		{
-			return new Vector2(width, height);
+			return size;
 		}
 	}
 }

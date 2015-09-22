@@ -9,14 +9,17 @@ namespace PlumGine2D
 {
 	public class Engine
 	{
-		private Point logicScreenResolution;
-		private Point realScreenResolution;
-		private Point mapSize;
-		private Vector2 scale;
+		public Point logicScreenResolution { get; private set; }
+		public Point realScreenResolution { get; private set; }
+		public Point mapSize { get; private set; }
 
-		private Vector2 pos;
+		public Vector2 pos { get; private set; }
+		public float scale { get; private set; }
 
-		private ChunkManager chunkManager;
+		public ChunkManager chunkManager { get; private set; }
+
+		// extensions engines
+		DrawEngine drawEngine;
 
 		// logicScreenResolution - logiczna rozdzielczość ekranu
 		// realScreenResolution - realna rozdzielczość ekranu
@@ -40,14 +43,17 @@ namespace PlumGine2D
 			this.realScreenResolution = realScreenResolution;
 			this.mapSize = mapSize;
 
+			this.scale = 1.0f;
+
 			graphics.IsFullScreen = fullscreen;
 			graphics.PreferredBackBufferWidth = realScreenResolution.X;
 			graphics.PreferredBackBufferHeight = realScreenResolution.Y;
 
-			scale = new Vector2((float)realScreenResolution.X / (float)logicScreenResolution.X,
-				(float)realScreenResolution.Y / (float)logicScreenResolution.Y);
+			chunkManager = new ChunkManager(this);
 
-			chunkManager = new ChunkManager(logicScreenResolution, mapSize);
+			drawEngine = new DrawEngine(this);
+
+			setView(new Vector2(0.0f, 0.0f));
 		}
 
 		public void addGameObject(IGameObject obj)
@@ -55,27 +61,19 @@ namespace PlumGine2D
 			chunkManager.addGameObject(obj);
 		}
 
-		public void setView(float x, float y)
+		public void setView(Vector2 pos)
 		{
-			pos = new Vector2(x, y);
+			this.pos = pos;
+		}
+
+		public void setScale(float scale)
+		{
+			this.scale = scale;
 		}
 
 		public void draw(SpriteBatch spriteBatch)
 		{
-			List<Chunk> chunks = chunkManager.getChunks(pos);
-
-			spriteBatch.Begin();
-
-			for (int i = 0; i < chunks.Count; ++i)
-			{
-				List<IDrawObject> drawObjects = chunks[i].getDrawObjects();
-				for (int j = 0; j < drawObjects.Count; ++j)
-				{
-					spriteBatch.Draw(drawObjects[j].getTexture(), drawObjects[j].getPos());
-				}
-			}
-
-			spriteBatch.End();
+			drawEngine.Draw(spriteBatch);
 		}
 	}
 }

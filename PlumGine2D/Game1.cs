@@ -17,15 +17,19 @@ namespace PlumGine2D
 	{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
+		//SpriteFont font;
+
 		Engine engine;
+		FrameCounter frameCounter;
 
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";	            
 
-			engine = new Engine(new Point(1600, 900), new Point(1280, 720), new Point(10, 10),
+			engine = new Engine(new Point(1600, 900), new Point(480, 800), new Point(10, 10),
 				false, graphics);
+			frameCounter = new FrameCounter();
 		}
 
 		/// <summary>
@@ -52,8 +56,19 @@ namespace PlumGine2D
 
 			//TODO: use this.Content to load your game content here 
 			Texture2D ballTexture = Content.Load<Texture2D>("ball");
-			IGameObject ballObject = new DrawObject(ballTexture, 10.0f, 20.0f);
+			IGameObject ballObject = new DrawObject(ballTexture, 1601.0f, 901.0f);
 			engine.addGameObject(ballObject);
+
+			engine.setView(ballObject.getPosCenter());
+
+			Texture2D carTexture = Content.Load<Texture2D>("car");
+			IGameObject carObject = new DrawObject(carTexture, 700.0f, 1400.0f);
+			engine.addGameObject(carObject);
+			carObject = new DrawObject(carTexture, 1400.0f, 2200.0f);
+			engine.addGameObject(carObject);
+
+			// DOESN'T WORK!
+			//font = Content.Load<SpriteFont>("font");
 		}
 
 		/// <summary>
@@ -72,7 +87,41 @@ namespace PlumGine2D
 				Exit();
 			}
 			#endif
-			// TODO: Add your update logic here			
+			// TODO: Add your update logic here
+			KeyboardState state = Keyboard.GetState();
+			if (state.IsKeyDown(Keys.Left))
+			{
+				engine.setView(engine.pos + new Vector2(-40.0f, 0.0f));
+			}
+			if (state.IsKeyDown(Keys.Right))
+			{
+				engine.setView(engine.pos + new Vector2(40.0f, 0.0f));
+			}
+			if (state.IsKeyDown(Keys.Up))
+			{
+				engine.setView(engine.pos + new Vector2(0.0f, -40.0f));
+			}
+			if (state.IsKeyDown(Keys.Down))
+			{
+				engine.setView(engine.pos + new Vector2(0.0f, 40.0f));
+			}
+			if (state.IsKeyDown(Keys.OemPlus))
+			{
+				if (engine.scale < 3.0f)
+				{
+					engine.setScale(engine.scale * 1.01f);
+				}
+			}
+			if (state.IsKeyDown(Keys.OemMinus))
+			{
+				if (engine.scale > 0.3f)
+				{
+					engine.setScale(engine.scale * 0.99f);
+				}
+			}
+
+			frameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+
 			base.Update(gameTime);
 		}
 
@@ -87,6 +136,8 @@ namespace PlumGine2D
 			//TODO: Add your drawing code here
 			engine.draw(spriteBatch);
             
+			//string fps = string.Format("FPS: {0}", frameCounter.AverageFramesPerSecond);
+
 			base.Draw(gameTime);
 		}
 	}
