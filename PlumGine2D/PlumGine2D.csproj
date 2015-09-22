@@ -55,8 +55,8 @@
     <Compile Include="src\PlumGine2D\ChunkManager.cs" />
     <Compile Include="src\PlumGine2D\DrawObject.cs" />
     <Compile Include="src\PlumGine2D\DrawEngine.cs" />
-    <Compile Include="src\PlumGine2D\IEngineExt.cs" />
     <Compile Include="src\PlumGine2D\FrameCounter.cs" />
+    <Compile Include="src\PlumGine2D\EngineExt.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
@@ -73,10 +73,10 @@
     <Content Include="Content\ball.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\font.spritefont">
+    <Content Include="Content\car.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\car.png">
+    <Content Include="Content\font.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

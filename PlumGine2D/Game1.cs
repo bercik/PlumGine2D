@@ -8,6 +8,16 @@ using Microsoft.Xna.Framework.Input;
 
 #endregion
 
+/* HOW TO ADD DYNAMIC LIGHT
+// turning on the light effect
+lightEffect.CurrentTechnique = lightEffect.Techniques["Light"];
+lightEffect.CurrentTechnique.Passes[0].Apply();
+
+spriteBatch.Draw(scene, new Vector2(0, 0), Color.White);
+
+spriteBatch.End();
+ * */
+
 namespace PlumGine2D
 {
 	/// <summary>
@@ -17,7 +27,7 @@ namespace PlumGine2D
 	{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
-		//SpriteFont font;
+		SpriteFont font;
 
 		Engine engine;
 		FrameCounter frameCounter;
@@ -27,7 +37,7 @@ namespace PlumGine2D
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";	            
 
-			engine = new Engine(new Point(1600, 900), new Point(480, 800), new Point(10, 10),
+			engine = new Engine(new Point(1600, 900), new Point(1280, 720), new Point(10, 10),
 				false, graphics);
 			frameCounter = new FrameCounter();
 		}
@@ -68,7 +78,7 @@ namespace PlumGine2D
 			engine.addGameObject(carObject);
 
 			// DOESN'T WORK!
-			//font = Content.Load<SpriteFont>("font");
+			font = Content.Load<SpriteFont>("font");
 		}
 
 		/// <summary>
@@ -136,7 +146,17 @@ namespace PlumGine2D
 			//TODO: Add your drawing code here
 			engine.draw(spriteBatch);
             
-			//string fps = string.Format("FPS: {0}", frameCounter.AverageFramesPerSecond);
+			// draw some information
+			spriteBatch.Begin();
+			string fps = string.Format("FPS: {0}", frameCounter.AverageFramesPerSecond);
+			spriteBatch.DrawString(font, fps, new Vector2(10.0f, 10.0f), Color.White);
+			string x = string.Format("x: {0}", engine.pos.X);
+			spriteBatch.DrawString(font, x, new Vector2(10.0f, 30.0f), Color.White);
+			string y = string.Format("y: {0}", engine.pos.Y);
+			spriteBatch.DrawString(font, y, new Vector2(10.0f, 50.0f), Color.White);
+			string scale = string.Format("scale: {0}", engine.scale);
+			spriteBatch.DrawString(font, scale, new Vector2(10.0f, 70.0f), Color.White);
+			spriteBatch.End();
 
 			base.Draw(gameTime);
 		}
