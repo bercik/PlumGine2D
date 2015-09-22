@@ -10,13 +10,20 @@ namespace PlumGine2D
 	{
 		private Vector2 scale;
 
+		private List<Rectangle> viewports = new List<Rectangle>();
+
 		public DrawEngine(Engine engine) : base(engine)
 		{
 			this.scale = new Vector2((float)engine.realScreenResolution.X / (float)engine.logicScreenResolution.X,
 				(float)engine.realScreenResolution.Y / (float)engine.logicScreenResolution.Y);
 		}
 
-		public void Draw(SpriteBatch spriteBatch)
+		public void AddViewport(Rectangle viewport)
+		{
+			viewports.Add(viewport);
+		}
+
+		public override void Draw(SpriteBatch spriteBatch)
 		{
 			List<Chunk> chunks = engine.chunkManager.getChunks(engine.pos);
 
@@ -24,7 +31,7 @@ namespace PlumGine2D
 
 			for (int i = 0; i < chunks.Count; ++i)
 			{
-				List<IDrawObject> drawObjects = chunks[i].getDrawObjects();
+				List<IDrawObject> drawObjects = chunks[i].getObjects<IDrawObject>();
 				for (int j = 0; j < drawObjects.Count; ++j)
 				{
 					Vector2 halfRealScreenResolution = 
@@ -38,6 +45,10 @@ namespace PlumGine2D
 			}
 
 			spriteBatch.End();
+		}
+
+		public override void Update(GameTime gameTime)
+		{
 		}
 	}
 }

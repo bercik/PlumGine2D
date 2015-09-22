@@ -10,16 +10,19 @@ namespace PlumGine2D
 	public class Engine
 	{
 		public Point logicScreenResolution { get; private set; }
+
 		public Point realScreenResolution { get; private set; }
+
 		public Point mapSize { get; private set; }
 
 		public Vector2 pos { get; private set; }
+
 		public float scale { get; private set; }
 
 		public ChunkManager chunkManager { get; private set; }
 
-		// extensions engines
-		DrawEngine drawEngine;
+		// list of extensions engines
+		List<EngineExt> engineExtensions = new List<EngineExt>();
 
 		// logicScreenResolution - logiczna rozdzielczość ekranu
 		// realScreenResolution - realna rozdzielczość ekranu
@@ -36,8 +39,8 @@ namespace PlumGine2D
 		// mapSize=(10, 10), a logicScreenResolution=(1600, 900) to rozmiar mapy
 		// w pikselach wyniesie (16000, 9000)
 		public Engine(Point logicScreenResolution, Point realScreenResolution,
-			Point mapSize,
-			bool fullscreen, GraphicsDeviceManager graphics)
+		              Point mapSize,
+		              bool fullscreen, GraphicsDeviceManager graphics)
 		{
 			this.logicScreenResolution = logicScreenResolution;
 			this.realScreenResolution = realScreenResolution;
@@ -51,9 +54,12 @@ namespace PlumGine2D
 
 			chunkManager = new ChunkManager(this);
 
-			drawEngine = new DrawEngine(this);
-
 			setView(new Vector2(0.0f, 0.0f));
+		}
+
+		public void AddEngineExt(EngineExt engineExt)
+		{
+			engineExtensions.Add(engineExt);
 		}
 
 		public void addGameObject(IGameObject obj)
@@ -71,9 +77,20 @@ namespace PlumGine2D
 			this.scale = scale;
 		}
 
-		public void draw(SpriteBatch spriteBatch)
+		public void Draw(SpriteBatch spriteBatch)
 		{
-			drawEngine.Draw(spriteBatch);
+			foreach (EngineExt ee in engineExtensions)
+			{
+				ee.Draw(spriteBatch);
+			}
+		}
+
+		public void Update(GameTime gameTime)
+		{
+			foreach (EngineExt ee in engineExtensions)
+			{
+				ee.Update(gameTime);
+			}
 		}
 	}
 }

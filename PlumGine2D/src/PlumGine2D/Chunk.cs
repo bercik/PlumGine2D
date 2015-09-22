@@ -11,15 +11,15 @@ namespace PlumGine2D
 		{
 		}
 
-		public List<IDrawObject> getDrawObjects()
+		public List<T> getObjects<T>()
 		{
-			List<IDrawObject> drawObjects = new List<IDrawObject>();
+			List<T> drawObjects = new List<T>();
 
 			for (int i = 0; i < gameObjects.Count; ++i)
 			{
-				if (gameObjects[i] is IDrawObject)
+				if (gameObjects[i] is T)
 				{
-					drawObjects.Add((IDrawObject)gameObjects[i]);
+					drawObjects.Add((T)gameObjects[i]);
 				}
 			}
 

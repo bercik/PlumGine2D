@@ -39,6 +39,7 @@ namespace PlumGine2D
 
 			engine = new Engine(new Point(1600, 900), new Point(1280, 720), new Point(10, 10),
 				false, graphics);
+			engine.AddEngineExt(new DrawEngine(engine));
 			frameCounter = new FrameCounter();
 		}
 
@@ -144,7 +145,7 @@ namespace PlumGine2D
 			graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 		
 			//TODO: Add your drawing code here
-			engine.draw(spriteBatch);
+			engine.Draw(spriteBatch);
             
 			// draw some information
 			spriteBatch.Begin();
