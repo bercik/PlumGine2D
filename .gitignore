@@ -1,5 +1,7 @@
 *.pidb
 *.resources
+*.exe
+*.exe.mdb
 *.userprefs
 **/test-results/
 **/bin/ 
