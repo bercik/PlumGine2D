@@ -8,8 +8,6 @@ namespace PlumGine2D
 {
 	public class ChunkManager
 	{
-		private Engine engine;
-
 		private Chunk[,] chunks;
 
 		private Point chunkSize;
@@ -17,8 +15,6 @@ namespace PlumGine2D
 
 		public ChunkManager(Engine engine, Point chunkSize, Point numberOfChanks)
 		{
-			this.engine = engine;
-
 			this.chunkSize = chunkSize;
 			this.numberOfChanks = numberOfChanks;
 
