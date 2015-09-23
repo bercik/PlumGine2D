@@ -15,7 +15,8 @@ namespace PlumGine2D.Graphics
 
 		public SpriteBatch spriteBatch { get; private set; }
 
-		public Viewport(Rectangle rectOnScreen, Vector2 posOnMap, float scale, SpriteBatch spriteBatch)
+		public Viewport(Rectangle rectOnScreen, Vector2 posOnMap, float scale,
+		                SpriteBatch spriteBatch)
 		{
 			this.rectOnScreen = rectOnScreen;
 			//this.posOnMap = posOnMap;
