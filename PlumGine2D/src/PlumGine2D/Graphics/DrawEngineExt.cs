@@ -7,11 +7,11 @@ namespace PlumGine2D.Graphics
 {
 	public abstract class DrawEngineExt
 	{
-		protected Engine engine;
+		protected DrawEngine drawEngine;
 
-		public DrawEngineExt(Engine engine)
+		public DrawEngineExt(DrawEngine drawEngine)
 		{
-			this.engine = engine;
+			this.drawEngine = drawEngine;
 		}
 
 		public abstract void Draw(SpriteBatch spriteBatch, Vector2 scale);

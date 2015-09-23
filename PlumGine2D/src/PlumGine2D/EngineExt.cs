@@ -7,7 +7,7 @@ namespace PlumGine2D
 {
 	public abstract class EngineExt
 	{
-		protected Engine engine;
+		public Engine engine { get; private set; }
 
 		public EngineExt(Engine engine)
 		{

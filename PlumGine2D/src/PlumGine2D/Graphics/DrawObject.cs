@@ -18,10 +18,9 @@ namespace PlumGine2D.Graphics
 			this.size = new Vector2(texture.Width, texture.Height);
 		}
 
-		public void Draw(SpriteBatch spriteBatch, Vector2 pos, Point screenSize, Vector2 scale)
+		public void Draw(SpriteBatch spriteBatch, Vector2 pos, Vector2 screenSize, Vector2 scale)
 		{
-			Vector2 halfScreenSize= 
-				new Vector2(screenSize.X * 0.5f, screenSize.Y * 0.5f);
+			Vector2 halfScreenSize = screenSize * 0.5f;
 			Vector2 posToDraw = getPosLeftTop() - pos;
 			posToDraw *= scale;
 			posToDraw += halfScreenSize;

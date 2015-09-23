@@ -8,19 +8,48 @@ namespace PlumGine2D.Graphics
 {
 	public class DrawEngine : EngineExt
 	{
-		private Vector2 scale;
+		public Vector2 logicScreenResolution { get; private set; }
+		public Vector2 realScreenResolution { get; private set; }
+
+		public float scale { get; private set; }
+		public Vector2 resScale { get; private set; }
+
+		public Vector2 pos { get; private set; }
+
+		private GraphicsDeviceManager graphics;
 
 		private List<DrawEngineExt> extensions = new List<DrawEngineExt>();
 
-		public DrawEngine(Engine engine) : base(engine)
+		public DrawEngine(Engine engine, 
+			Vector2 logicScreenResolution, Vector2 realScreenResolution,
+			bool fullscreen, GraphicsDeviceManager graphics) : base(engine)
 		{
-			this.scale = new Vector2((float)engine.realScreenResolution.X / (float)engine.logicScreenResolution.X,
-				(float)engine.realScreenResolution.Y / (float)engine.logicScreenResolution.Y);
+			this.graphics = graphics;
+			graphics.IsFullScreen = fullscreen;
+			graphics.PreferredBackBufferWidth = (int)realScreenResolution.X;
+			graphics.PreferredBackBufferHeight = (int)realScreenResolution.Y;
+
+			this.logicScreenResolution = logicScreenResolution;
+			this.realScreenResolution = realScreenResolution;
+
+			this.resScale = new Vector2(realScreenResolution.X / logicScreenResolution.X,
+				realScreenResolution.Y / logicScreenResolution.Y);
+			this.scale = 1.0f;
 		}
 
 		public void AddExtension(DrawEngineExt ext)
 		{
 			extensions.Add(ext);
+		}
+
+		public void SetView(Vector2 newPos)
+		{
+			this.pos = newPos;
+		}
+
+		public void SetScale(float newScale)
+		{
+			this.scale = newScale;
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)
@@ -29,7 +58,7 @@ namespace PlumGine2D.Graphics
 
 			foreach (DrawEngineExt dee in extensions)
 			{
-				dee.Draw(spriteBatch, engine.scale * scale);
+				dee.Draw(spriteBatch, resScale * scale);
 			}
 
 			spriteBatch.End();

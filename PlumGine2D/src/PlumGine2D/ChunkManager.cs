@@ -12,14 +12,20 @@ namespace PlumGine2D
 
 		private Chunk[,] chunks;
 
-		public ChunkManager(Engine engine)
+		private Point chunkSize;
+		private Point numberOfChanks;
+
+		public ChunkManager(Engine engine, Point chunkSize, Point numberOfChanks)
 		{
 			this.engine = engine;
 
-			this.chunks = new Chunk[engine.mapSize.X, engine.mapSize.Y];
-			for (int x = 0; x < engine.mapSize.X; ++x)
+			this.chunkSize = chunkSize;
+			this.numberOfChanks = numberOfChanks;
+
+			this.chunks = new Chunk[numberOfChanks.X, numberOfChanks.Y];
+			for (int x = 0; x < numberOfChanks.X; ++x)
 			{
-				for (int y = 0; y < engine.mapSize.Y; ++y)
+				for (int y = 0; y < numberOfChanks.Y; ++y)
 				{
 					chunks[x, y] = new Chunk();
 				}
@@ -28,18 +34,18 @@ namespace PlumGine2D
 
 		public void addGameObject(IGameObject obj)
 		{
-			if (obj.getSize().X > engine.logicScreenResolution.X
-				|| obj.getSize().Y > engine.logicScreenResolution.Y)
+			if (obj.getSize().X > chunkSize.X
+				|| obj.getSize().Y > chunkSize.Y)
 			{
 				throw new ArgumentException(
 					"Object width and height must be less than logicScreenResolution");
 			}
 
-			int x = (int)obj.getPosLeftTop().X / engine.logicScreenResolution.X;
-			int y = (int)obj.getPosLeftTop().Y / engine.logicScreenResolution.Y;
+			int x = (int)obj.getPosLeftTop().X / chunkSize.X;
+			int y = (int)obj.getPosLeftTop().Y / chunkSize.Y;
 
-			if (x < 0 || x > engine.mapSize.X ||
-				y < 0 || y > engine.mapSize.Y)
+			if (x < 0 || x > numberOfChanks.X ||
+				y < 0 || y > numberOfChanks.Y)
 			{
 				throw new ArgumentException("Object position exceed map size");
 			}
@@ -63,12 +69,12 @@ namespace PlumGine2D
 		{
 			List<Chunk> result = new List<Chunk>();
 
-			int xMin = rect.Left / engine.logicScreenResolution.X - 1;
-			int xMax = rect.Right / engine.logicScreenResolution.X + 1;
+			int xMin = rect.Left / chunkSize.X - 1;
+			int xMax = rect.Right / chunkSize.X + 1;
 			int[] xs = Range(xMin, xMax);
 
-			int yMin = rect.Top / engine.logicScreenResolution.Y - 1;
-			int yMax = rect.Bottom / engine.logicScreenResolution.Y + 1;
+			int yMin = rect.Top / chunkSize.Y - 1;
+			int yMax = rect.Bottom / chunkSize.Y + 1;
 			int[] ys = Range(yMin, yMax);
 
 			for (int i = 0; i < xs.Length; ++i)
@@ -78,8 +84,8 @@ namespace PlumGine2D
 					int x = xs[i];
 					int y = ys[j];
 
-					if (x >= 0 && x < engine.mapSize.X
-						&& y >= 0 && y < engine.mapSize.Y)
+					if (x >= 0 && x < numberOfChanks.X
+						&& y >= 0 && y < numberOfChanks.Y)
 					{
 						result.Add(chunks[x, y]);
 					}

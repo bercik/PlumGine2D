@@ -9,16 +9,6 @@ namespace PlumGine2D
 {
 	public class Engine
 	{
-		public Point logicScreenResolution { get; private set; }
-
-		public Point realScreenResolution { get; private set; }
-
-		public Point mapSize { get; private set; }
-
-		public Vector2 pos { get; private set; }
-
-		public float scale { get; private set; }
-
 		public ChunkManager chunkManager { get; private set; }
 
 		// list of extensions engines
@@ -38,23 +28,9 @@ namespace PlumGine2D
 		// mapSize - rozmiar mapy jako wielokrotność logicScreenSize tzn. jeżeli
 		// mapSize=(10, 10), a logicScreenResolution=(1600, 900) to rozmiar mapy
 		// w pikselach wyniesie (16000, 9000)
-		public Engine(Point logicScreenResolution, Point realScreenResolution,
-		              Point mapSize,
-		              bool fullscreen, GraphicsDeviceManager graphics)
+		public Engine(Point chunkSize, Point numberOfChunks)
 		{
-			this.logicScreenResolution = logicScreenResolution;
-			this.realScreenResolution = realScreenResolution;
-			this.mapSize = mapSize;
-
-			this.scale = 1.0f;
-
-			graphics.IsFullScreen = fullscreen;
-			graphics.PreferredBackBufferWidth = realScreenResolution.X;
-			graphics.PreferredBackBufferHeight = realScreenResolution.Y;
-
-			chunkManager = new ChunkManager(this);
-
-			setView(new Vector2(0.0f, 0.0f));
+			chunkManager = new ChunkManager(this, chunkSize, numberOfChunks);
 		}
 
 		public void AddEngineExt(EngineExt engineExt)
@@ -65,16 +41,6 @@ namespace PlumGine2D
 		public void addGameObject(IGameObject obj)
 		{
 			chunkManager.addGameObject(obj);
-		}
-
-		public void setView(Vector2 pos)
-		{
-			this.pos = pos;
-		}
-
-		public void setScale(float scale)
-		{
-			this.scale = scale;
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
