@@ -43,7 +43,7 @@ namespace PlumGine2D
 
 			engine = new Engine(new Point(1600, 900), new Point(10, 10));
 			drawEngine = new DrawEngine(engine, new Vector2(1600.0f, 900.0f), 
-				new Vector2(1280.0f, 720.0f), false, graphics);
+				new Vector2(1600.0f, 900.0f), false, graphics);
 			drawEngine.AddExtension(new BasicDrawEngine(drawEngine));
 			engine.AddEngineExt(drawEngine);
 			frameCounter = new FrameCounter();

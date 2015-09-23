@@ -33,16 +33,16 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="MonoGame.Framework">
-      <HintPath>..\packages\MonoGame.Framework.Linux.3.3.0.0\lib\net40\MonoGame.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="OpenTK">
       <HintPath>..\packages\MonoGame.Framework.Linux.3.3.0.0\lib\net40\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.C5" />
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\packages\MonoGame.Framework.Linux.3.3.0.0\lib\net40\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="Tao.Sdl">
       <HintPath>..\packages\MonoGame.Framework.Linux.3.3.0.0\lib\net40\Tao.Sdl.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.C5" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game1.cs" />
@@ -56,10 +56,10 @@
     <Compile Include="src\PlumGine2D\Graphics\DrawEngine.cs" />
     <Compile Include="src\PlumGine2D\Graphics\DrawObject.cs" />
     <Compile Include="src\PlumGine2D\Graphics\IDrawObject.cs" />
-    <Compile Include="src\PlumGine2D\utils\FrameCounter.cs" />
     <Compile Include="src\PlumGine2D\Graphics\DrawEngineExt.cs" />
     <Compile Include="src\PlumGine2D\Graphics\BasicDrawEngine.cs" />
     <Compile Include="src\PlumGine2D\Graphics\Viewport.cs" />
+    <Compile Include="src\PlumGine2D\Utils\FrameCounter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
@@ -88,6 +88,6 @@
     <Folder Include="src\" />
     <Folder Include="src\PlumGine2D\" />
     <Folder Include="src\PlumGine2D\Graphics\" />
-    <Folder Include="src\PlumGine2D\utils\" />
+    <Folder Include="src\PlumGine2D\Utils\" />
   </ItemGroup>
 </Project>

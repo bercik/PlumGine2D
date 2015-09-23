@@ -14,7 +14,8 @@ namespace PlumGine2D.Graphics
 			this.drawEngine = drawEngine;
 		}
 
-		public abstract void Draw(SpriteBatch spriteBatch, Vector2 scale);
+		public abstract void Draw(SpriteBatch spriteBatch, Vector2 scale, 
+		                          Vector2 centerScreenPos, Vector2 screenSize);
 
 		public abstract void Update(GameTime gameTime);
 	}
