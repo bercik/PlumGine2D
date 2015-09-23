@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.Input;
 
+using PlumGine2D.Graphics;
+using PlumGine2D.Utils;
+
 #endregion
 
 /* HOW TO ADD DYNAMIC LIGHT
@@ -39,7 +42,9 @@ namespace PlumGine2D
 
 			engine = new Engine(new Point(1600, 900), new Point(1280, 720), new Point(10, 10),
 				false, graphics);
-			engine.AddEngineExt(new DrawEngine(engine));
+			DrawEngine de = new DrawEngine(engine);
+			de.AddExtension(new BasicDrawEngine(engine));
+			engine.AddEngineExt(de);
 			frameCounter = new FrameCounter();
 		}
 

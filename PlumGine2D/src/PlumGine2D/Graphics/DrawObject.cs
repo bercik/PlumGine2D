@@ -3,7 +3,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace PlumGine2D
+namespace PlumGine2D.Graphics
 {
 	public class DrawObject : IDrawObject
 	{
@@ -18,9 +18,15 @@ namespace PlumGine2D
 			this.size = new Vector2(texture.Width, texture.Height);
 		}
 
-		public Texture2D getTexture()
+		public void Draw(SpriteBatch spriteBatch, Vector2 pos, Point screenSize, Vector2 scale)
 		{
-			return texture;
+			Vector2 halfScreenSize= 
+				new Vector2(screenSize.X * 0.5f, screenSize.Y * 0.5f);
+			Vector2 posToDraw = getPosLeftTop() - pos;
+			posToDraw *= scale;
+			posToDraw += halfScreenSize;
+			spriteBatch.Draw(texture, posToDraw, null,
+				Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
 		}
 
 		public Vector2 getPosLeftTop()

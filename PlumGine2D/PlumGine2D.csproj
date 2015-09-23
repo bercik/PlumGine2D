@@ -50,13 +50,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\PlumGine2D\Engine.cs" />
     <Compile Include="src\PlumGine2D\Chunk.cs" />
-    <Compile Include="src\PlumGine2D\IDrawObject.cs" />
     <Compile Include="src\PlumGine2D\IGameObject.cs" />
     <Compile Include="src\PlumGine2D\ChunkManager.cs" />
-    <Compile Include="src\PlumGine2D\DrawObject.cs" />
-    <Compile Include="src\PlumGine2D\DrawEngine.cs" />
-    <Compile Include="src\PlumGine2D\FrameCounter.cs" />
     <Compile Include="src\PlumGine2D\EngineExt.cs" />
+    <Compile Include="src\PlumGine2D\Graphics\DrawEngine.cs" />
+    <Compile Include="src\PlumGine2D\Graphics\DrawObject.cs" />
+    <Compile Include="src\PlumGine2D\Graphics\IDrawObject.cs" />
+    <Compile Include="src\PlumGine2D\utils\FrameCounter.cs" />
+    <Compile Include="src\PlumGine2D\Graphics\DrawEngineExt.cs" />
+    <Compile Include="src\PlumGine2D\Graphics\BasicDrawEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
@@ -84,5 +86,7 @@
   <ItemGroup>
     <Folder Include="src\" />
     <Folder Include="src\PlumGine2D\" />
+    <Folder Include="src\PlumGine2D\Graphics\" />
+    <Folder Include="src\PlumGine2D\utils\" />
   </ItemGroup>
 </Project>
