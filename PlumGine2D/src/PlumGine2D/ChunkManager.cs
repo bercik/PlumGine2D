@@ -47,29 +47,41 @@ namespace PlumGine2D
 			chunks[x, y].addGameObject(obj);
 		}
 
-		public List<Chunk> getChunks(Vector2 pos)
+		private int[] Range(int min, int max)
+		{
+			int[] result = new int[max - min + 1];
+
+			for (int i = min, j = 0; i <= max; ++i, ++j)
+			{
+				result[j] = i;
+			}
+
+			return result;
+		}
+
+		public List<Chunk> getChunksInRect(Rectangle rect)
 		{
 			List<Chunk> result = new List<Chunk>();
 
-			int x = (int)pos.X / engine.logicScreenResolution.X;
-			int y = (int)pos.Y / engine.logicScreenResolution.Y;
+			int xMin = rect.Left / engine.logicScreenResolution.X - 1;
+			int xMax = rect.Right / engine.logicScreenResolution.X + 1;
+			int[] xs = Range(xMin, xMax);
 
-			int radius = 1;
-			if (engine.scale < 1.0f)
-			{
-				radius = 2;
-			}
+			int yMin = rect.Top / engine.logicScreenResolution.Y - 1;
+			int yMax = rect.Bottom / engine.logicScreenResolution.Y + 1;
+			int[] ys = Range(yMin, yMax);
 
-			for (int i = -radius; i <= radius; ++i)
+			for (int i = 0; i < xs.Length; ++i)
 			{
-				for (int j = -radius; j <= radius; ++j)
+				for (int j = 0; j < ys.Length; ++j)
 				{
-					int tmpX = x + i;
-					int tmpY = y + j;
-					if (tmpX >= 0 && tmpX < engine.mapSize.X
-						&& tmpY >= 0 && tmpY < engine.mapSize.Y)
+					int x = xs[i];
+					int y = ys[j];
+
+					if (x >= 0 && x < engine.mapSize.X
+						&& y >= 0 && y < engine.mapSize.Y)
 					{
-						result.Add(chunks[tmpX, tmpY]);
+						result.Add(chunks[x, y]);
 					}
 				}
 			}

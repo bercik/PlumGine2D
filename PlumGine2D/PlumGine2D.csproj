@@ -59,6 +59,7 @@
     <Compile Include="src\PlumGine2D\utils\FrameCounter.cs" />
     <Compile Include="src\PlumGine2D\Graphics\DrawEngineExt.cs" />
     <Compile Include="src\PlumGine2D\Graphics\BasicDrawEngine.cs" />
+    <Compile Include="src\PlumGine2D\Graphics\Viewport.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />

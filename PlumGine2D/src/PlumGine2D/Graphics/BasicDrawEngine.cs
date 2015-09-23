@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 
 namespace PlumGine2D.Graphics
 {
@@ -14,7 +15,12 @@ namespace PlumGine2D.Graphics
 
 		public override void Draw(SpriteBatch spriteBatch, Vector2 scale)
 		{
-			List<Chunk> chunks = engine.chunkManager.getChunks(engine.pos);
+			Vector2 leftTopPos = engine.pos -
+				new Vector2(engine.realScreenResolution.X * scale.X * 0.5f, engine.realScreenResolution.Y * scale.Y * 0.5f);
+			Rectangle logicScreen = new Rectangle((int)(leftTopPos.X), (int)(leftTopPos.Y),
+				(int)(engine.realScreenResolution.X / scale.X), (int)(engine.realScreenResolution.Y / scale.Y));
+
+			List<Chunk> chunks = engine.chunkManager.getChunksInRect(logicScreen);
 
 			for (int i = 0; i < chunks.Count; ++i)
 			{
@@ -26,7 +32,7 @@ namespace PlumGine2D.Graphics
 			}
 		}
 
-		public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
+		public override void Update(GameTime gameTime)
 		{
 		}
 	}
