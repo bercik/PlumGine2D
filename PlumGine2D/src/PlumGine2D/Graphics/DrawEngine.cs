@@ -66,9 +66,12 @@ namespace PlumGine2D.Graphics
 				Vector2 screenSize = new Vector2(v.rectOnScreen.Width, 
 					                     v.rectOnScreen.Height) * resScale;
 
-				RenderTarget2D target = new RenderTarget2D(graphics.GraphicsDevice,
-					                        (int)screenSize.X, (int)screenSize.Y);
-				graphics.GraphicsDevice.SetRenderTarget(target);
+				/*RenderTarget2D target = new RenderTarget2D(graphics.GraphicsDevice,
+					                        (int)screenSize.X, (int)screenSize.Y);*/
+				v.AddRenderTarget(graphics.GraphicsDevice, 
+					new Point((int)screenSize.X, (int)screenSize.Y));
+				//graphics.GraphicsDevice.SetRenderTarget(target);
+				graphics.GraphicsDevice.SetRenderTarget(v.GetTarget());
 
 				Vector2 mapSize = new Vector2(v.rectOnMap.Width, v.rectOnMap.Height);
 				Vector2 scale = screenSize / mapSize;
@@ -92,7 +95,7 @@ namespace PlumGine2D.Graphics
 
 				spriteBatch.End();
 
-				textures.Add(target);
+				textures.Add(v.GetTarget());
 
 				positions.Add(new Vector2(v.rectOnScreen.X, v.rectOnScreen.Y));
 			}

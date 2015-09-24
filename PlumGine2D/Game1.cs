@@ -28,6 +28,8 @@ namespace PlumGine2D
 	/// </summary>
 	public class Game1 : Game
 	{
+		private bool v1 = true;
+
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		SpriteFont font;
@@ -117,40 +119,55 @@ namespace PlumGine2D
 			}
 			#endif
 			// TODO: Add your update logic here
+			PlumGine2D.Graphics.Viewport v;
+			if (v1)
+			{
+				v = viewport1;
+			}
+			else
+			{
+				v = viewport2;
+			}
+
 			KeyboardState state = Keyboard.GetState();
 			if (state.IsKeyDown(Keys.Left))
 			{
-				viewport1.centerMapPos = viewport1.centerMapPos +
+				v.centerMapPos = v.centerMapPos +
 				new Vector2(-20.0f, 0.0f);
 			}
 			if (state.IsKeyDown(Keys.Right))
 			{
-				viewport1.centerMapPos = viewport1.centerMapPos +
+				v.centerMapPos = v.centerMapPos +
 				new Vector2(20.0f, 0.0f);
 			}
 			if (state.IsKeyDown(Keys.Up))
 			{
-				viewport1.centerMapPos = viewport1.centerMapPos +
+				v.centerMapPos = v.centerMapPos +
 				new Vector2(0.0f, -20.0f);
 			}
 			if (state.IsKeyDown(Keys.Down))
 			{
-				viewport1.centerMapPos = viewport1.centerMapPos +
+				v.centerMapPos = v.centerMapPos +
 				new Vector2(0.0f, 20.0f);
 			}
 			if (state.IsKeyDown(Keys.OemPlus))
 			{
-				if (viewport1.scale < 3.0f)
+				if (v.scale < 3.0f)
 				{
-					viewport1.scale = viewport1.scale * 1.01f;
+					v.scale = v.scale * 1.01f;
 				}
 			}
 			if (state.IsKeyDown(Keys.OemMinus))
 			{
-				if (viewport1.scale > 0.3f)
+				if (v.scale > 0.3f)
 				{
-					viewport1.scale = viewport1.scale * 0.99f;
+					v.scale = v.scale * 0.99f;
 				}
+			}
+
+			if (state.IsKeyDown(Keys.Space))
+			{
+				v1 = !v1;
 			}
 
 			frameCounter.Update((float)gameTime.ElapsedGameTime.TotalSeconds);

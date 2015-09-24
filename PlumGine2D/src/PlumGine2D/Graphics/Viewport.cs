@@ -12,10 +12,12 @@ namespace PlumGine2D.Graphics
 
 		// względem logicScreenResolution
 		private Rectangle originalRectOnMap { get; set; }
+
 		public Rectangle rectOnMap { get; private set; }
 
 		// względem rectOnMap
 		private float _scale;
+
 		public float scale
 		{ 
 			get
@@ -33,6 +35,7 @@ namespace PlumGine2D.Graphics
 		}
 
 		private Vector2 _centerMapPos;
+
 		public Vector2 centerMapPos
 		{
 			get
@@ -43,18 +46,33 @@ namespace PlumGine2D.Graphics
 			{
 				_centerMapPos = value;
 				Vector2 halfMapSize = new Vector2(rectOnMap.Width * 0.5f, 
-					rectOnMap.Height * 0.5f);
+					                      rectOnMap.Height * 0.5f);
 				rectOnMap = new Rectangle((int)(_centerMapPos.X - halfMapSize.X), 
 					(int)(_centerMapPos.Y - halfMapSize.Y), rectOnMap.Width,
 					rectOnMap.Height);
 			}
 		}
 
+		private RenderTarget2D target = null;
+
 		public Viewport(Rectangle rectOnScreen, Rectangle rectOnMap)
 		{
 			this.rectOnScreen = rectOnScreen;
 			this.originalRectOnMap = rectOnMap;
 			this.scale = 1.0f;
+		}
+
+		public void AddRenderTarget(GraphicsDevice device, Point screenSize)
+		{
+			if (target == null)
+			{
+				target = new RenderTarget2D(device, screenSize.X, screenSize.Y);
+			}
+		}
+
+		public RenderTarget2D GetTarget()
+		{
+			return target;
 		}
 	}
 }
