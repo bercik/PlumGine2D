@@ -57,13 +57,18 @@ namespace PlumGine2D.Graphics
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
-			spriteBatch.Begin();
+			List<Texture2D> textures = new List<Texture2D>();
+			List<Vector2> positions = new List<Vector2>();
 
 			foreach (Viewport v in viewports)
 			{
 				// count scale, pos and realScreenResolution based on viewport
 				Vector2 screenSize = new Vector2(v.rectOnScreen.Width, 
 					                     v.rectOnScreen.Height) * resScale;
+
+				RenderTarget2D target = new RenderTarget2D(graphics.GraphicsDevice,
+					                        (int)screenSize.X, (int)screenSize.Y);
+				graphics.GraphicsDevice.SetRenderTarget(target);
 
 				Vector2 mapSize = new Vector2(v.rectOnMap.Width, v.rectOnMap.Height);
 				Vector2 scale = screenSize / mapSize;
@@ -76,12 +81,29 @@ namespace PlumGine2D.Graphics
 					scale = new Vector2(scale.Y, scale.Y);
 				}
 
+				spriteBatch.Begin();
+
 				// draw all extensions
 				foreach (DrawEngineExt dee in extensions)
 				{
 					dee.Draw(spriteBatch, scale, v.centerMapPos,
 						screenSize);
 				}
+
+				spriteBatch.End();
+
+				textures.Add(target);
+
+				positions.Add(new Vector2(v.rectOnScreen.X, v.rectOnScreen.Y));
+			}
+				
+			graphics.GraphicsDevice.SetRenderTarget(null);
+			graphics.GraphicsDevice.Clear(Color.Pink);
+			spriteBatch.Begin();
+
+			for (int i = 0; i < textures.Count; ++i)
+			{
+				spriteBatch.Draw(textures[i], positions[i]);
 			}
 
 			spriteBatch.End();
