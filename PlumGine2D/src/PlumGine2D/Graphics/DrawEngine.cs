@@ -63,9 +63,18 @@ namespace PlumGine2D.Graphics
 			{
 				// count scale, pos and realScreenResolution based on viewport
 				Vector2 screenSize = new Vector2(v.rectOnScreen.Width, 
-					v.rectOnScreen.Height) * resScale;
+					                     v.rectOnScreen.Height) * resScale;
+
 				Vector2 mapSize = new Vector2(v.rectOnMap.Width, v.rectOnMap.Height);
 				Vector2 scale = screenSize / mapSize;
+				if (scale.X < scale.Y)
+				{
+					scale = new Vector2(scale.X, scale.X);
+				}
+				else
+				{
+					scale = new Vector2(scale.Y, scale.Y);
+				}
 
 				// draw all extensions
 				foreach (DrawEngineExt dee in extensions)

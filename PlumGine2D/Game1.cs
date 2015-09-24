@@ -34,7 +34,8 @@ namespace PlumGine2D
 
 		Engine engine;
 		DrawEngine drawEngine;
-		PlumGine2D.Graphics.Viewport viewport;
+		PlumGine2D.Graphics.Viewport viewport1;
+		PlumGine2D.Graphics.Viewport viewport2;
 		FrameCounter frameCounter;
 
 		public Game1()
@@ -44,11 +45,16 @@ namespace PlumGine2D
 
 			engine = new Engine(new Point(1600, 900), new Point(10, 10));
 			drawEngine = new DrawEngine(engine, new Vector2(1600.0f, 900.0f), 
-				new Vector2(800.0f, 600.0f), false, graphics);
+				new Vector2(1600.0f, 900.0f), false, graphics);
 			drawEngine.AddExtension(new BasicDrawEngine(drawEngine));
-			viewport = new PlumGine2D.Graphics.Viewport(
-				new Rectangle(0, 0, 1600, 900), new Rectangle(0, 0, 1600, 900));
-			drawEngine.AddViewport(viewport);
+			viewport1 = new PlumGine2D.Graphics.Viewport(
+				new Rectangle(0, 0, 800, 900), new Rectangle(0, 0, 1600, 900));
+			viewport2 = new PlumGine2D.Graphics.Viewport(
+				new Rectangle(800, 0, 800, 900), new Rectangle(0, 0, 1600, 900));
+
+			drawEngine.AddViewport(viewport1);
+			drawEngine.AddViewport(viewport2);
+
 			engine.AddEngineExt(drawEngine);
 			frameCounter = new FrameCounter();
 		}
@@ -80,13 +86,15 @@ namespace PlumGine2D
 			IGameObject ballObject = new DrawObject(ballTexture, 1601.0f, 901.0f);
 			engine.addGameObject(ballObject);
 
-			viewport.centerMapPos = ballObject.getPosCenter();
+			viewport1.centerMapPos = ballObject.getPosCenter();
 
 			Texture2D carTexture = Content.Load<Texture2D>("car");
 			IGameObject carObject = new DrawObject(carTexture, 700.0f, 1400.0f);
 			engine.addGameObject(carObject);
 			carObject = new DrawObject(carTexture, 1400.0f, 2200.0f);
 			engine.addGameObject(carObject);
+
+			viewport2.centerMapPos = carObject.getPosCenter();
 
 			// DOESN'T WORK!
 			font = Content.Load<SpriteFont>("font");
@@ -112,36 +120,36 @@ namespace PlumGine2D
 			KeyboardState state = Keyboard.GetState();
 			if (state.IsKeyDown(Keys.Left))
 			{
-				viewport.centerMapPos = viewport.centerMapPos +
-					new Vector2(-20.0f, 0.0f);
+				viewport1.centerMapPos = viewport1.centerMapPos +
+				new Vector2(-20.0f, 0.0f);
 			}
 			if (state.IsKeyDown(Keys.Right))
 			{
-				viewport.centerMapPos = viewport.centerMapPos +
-					new Vector2(20.0f, 0.0f);
+				viewport1.centerMapPos = viewport1.centerMapPos +
+				new Vector2(20.0f, 0.0f);
 			}
 			if (state.IsKeyDown(Keys.Up))
 			{
-				viewport.centerMapPos = viewport.centerMapPos +
-					new Vector2(0.0f, -20.0f);
+				viewport1.centerMapPos = viewport1.centerMapPos +
+				new Vector2(0.0f, -20.0f);
 			}
 			if (state.IsKeyDown(Keys.Down))
 			{
-				viewport.centerMapPos = viewport.centerMapPos +
-					new Vector2(0.0f, 20.0f);
+				viewport1.centerMapPos = viewport1.centerMapPos +
+				new Vector2(0.0f, 20.0f);
 			}
 			if (state.IsKeyDown(Keys.OemPlus))
 			{
-				if (viewport.scale < 3.0f)
+				if (viewport1.scale < 3.0f)
 				{
-					viewport.scale = viewport.scale * 1.01f;
+					viewport1.scale = viewport1.scale * 1.01f;
 				}
 			}
 			if (state.IsKeyDown(Keys.OemMinus))
 			{
-				if (viewport.scale > 0.3f)
+				if (viewport1.scale > 0.3f)
 				{
-					viewport.scale = viewport.scale * 0.99f;
+					viewport1.scale = viewport1.scale * 0.99f;
 				}
 			}
 
@@ -165,11 +173,11 @@ namespace PlumGine2D
 			spriteBatch.Begin();
 			string fps = string.Format("FPS: {0}", frameCounter.AverageFramesPerSecond);
 			spriteBatch.DrawString(font, fps, new Vector2(10.0f, 10.0f), Color.White);
-			string x = string.Format("x: {0}", viewport.centerMapPos.X);
+			string x = string.Format("x: {0}", viewport1.centerMapPos.X);
 			spriteBatch.DrawString(font, x, new Vector2(10.0f, 30.0f), Color.White);
-			string y = string.Format("y: {0}", viewport.centerMapPos.Y);
+			string y = string.Format("y: {0}", viewport1.centerMapPos.Y);
 			spriteBatch.DrawString(font, y, new Vector2(10.0f, 50.0f), Color.White);
-			string scale = string.Format("scale: {0}", viewport.scale);
+			string scale = string.Format("scale: {0}", viewport1.scale);
 			spriteBatch.DrawString(font, scale, new Vector2(10.0f, 70.0f), Color.White);
 			spriteBatch.End();
 
