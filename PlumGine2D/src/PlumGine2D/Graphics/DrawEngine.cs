@@ -1,8 +1,9 @@
 ﻿using System;
-
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace PlumGine2D.Graphics
 {
@@ -60,6 +61,14 @@ namespace PlumGine2D.Graphics
 		public void SetScale(float newScale)
 		{
 			this.scale = newScale;
+		}
+
+		public virtual void LoadContent(ContentManager content)
+		{
+			foreach (DrawEngineExt dee in extensions)
+			{
+				dee.LoadContent(content);
+			}
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)

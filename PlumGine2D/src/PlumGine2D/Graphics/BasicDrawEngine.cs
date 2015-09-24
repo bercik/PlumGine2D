@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace PlumGine2D.Graphics
 {
 	public class BasicDrawEngine : DrawEngineExt
 	{
 		public BasicDrawEngine(DrawEngine drawEngine) : base(drawEngine)
+		{
+		}
+
+		public override void LoadContent(ContentManager content)
 		{
 		}
 

@@ -1,7 +1,8 @@
 ﻿using System;
 
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace PlumGine2D.Graphics
 {
@@ -13,6 +14,8 @@ namespace PlumGine2D.Graphics
 		{
 			this.drawEngine = drawEngine;
 		}
+
+		public abstract void LoadContent(ContentManager content);
 
 		public abstract void Draw(SpriteBatch spriteBatch, Vector2 scale, 
 		                          Vector2 centerScreenPos, Vector2 screenSize);
