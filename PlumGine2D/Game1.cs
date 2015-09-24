@@ -34,6 +34,7 @@ namespace PlumGine2D
 
 		Engine engine;
 		DrawEngine drawEngine;
+		PlumGine2D.Graphics.Viewport viewport;
 		FrameCounter frameCounter;
 
 		public Game1()
@@ -43,8 +44,11 @@ namespace PlumGine2D
 
 			engine = new Engine(new Point(1600, 900), new Point(10, 10));
 			drawEngine = new DrawEngine(engine, new Vector2(1600.0f, 900.0f), 
-				new Vector2(1600.0f, 900.0f), false, graphics);
+				new Vector2(800.0f, 600.0f), false, graphics);
 			drawEngine.AddExtension(new BasicDrawEngine(drawEngine));
+			viewport = new PlumGine2D.Graphics.Viewport(
+				new Rectangle(0, 0, 1600, 900), new Rectangle(0, 0, 1600, 900));
+			drawEngine.AddViewport(viewport);
 			engine.AddEngineExt(drawEngine);
 			frameCounter = new FrameCounter();
 		}
@@ -76,7 +80,7 @@ namespace PlumGine2D
 			IGameObject ballObject = new DrawObject(ballTexture, 1601.0f, 901.0f);
 			engine.addGameObject(ballObject);
 
-			drawEngine.SetView(ballObject.getPosCenter());
+			viewport.centerMapPos = ballObject.getPosCenter();
 
 			Texture2D carTexture = Content.Load<Texture2D>("car");
 			IGameObject carObject = new DrawObject(carTexture, 700.0f, 1400.0f);
@@ -108,32 +112,36 @@ namespace PlumGine2D
 			KeyboardState state = Keyboard.GetState();
 			if (state.IsKeyDown(Keys.Left))
 			{
-				drawEngine.SetView(drawEngine.pos + new Vector2(-40.0f, 0.0f));
+				viewport.centerMapPos = viewport.centerMapPos +
+					new Vector2(-20.0f, 0.0f);
 			}
 			if (state.IsKeyDown(Keys.Right))
 			{
-				drawEngine.SetView(drawEngine.pos + new Vector2(40.0f, 0.0f));
+				viewport.centerMapPos = viewport.centerMapPos +
+					new Vector2(20.0f, 0.0f);
 			}
 			if (state.IsKeyDown(Keys.Up))
 			{
-				drawEngine.SetView(drawEngine.pos + new Vector2(0.0f, -40.0f));
+				viewport.centerMapPos = viewport.centerMapPos +
+					new Vector2(0.0f, -20.0f);
 			}
 			if (state.IsKeyDown(Keys.Down))
 			{
-				drawEngine.SetView(drawEngine.pos + new Vector2(0.0f, 40.0f));
+				viewport.centerMapPos = viewport.centerMapPos +
+					new Vector2(0.0f, 20.0f);
 			}
 			if (state.IsKeyDown(Keys.OemPlus))
 			{
-				if (drawEngine.scale < 3.0f)
+				if (viewport.scale < 3.0f)
 				{
-					drawEngine.SetScale(drawEngine.scale * 1.01f);
+					viewport.scale = viewport.scale * 1.01f;
 				}
 			}
 			if (state.IsKeyDown(Keys.OemMinus))
 			{
-				if (drawEngine.scale > 0.3f)
+				if (viewport.scale > 0.3f)
 				{
-					drawEngine.SetScale(drawEngine.scale * 0.99f);
+					viewport.scale = viewport.scale * 0.99f;
 				}
 			}
 
@@ -157,11 +165,11 @@ namespace PlumGine2D
 			spriteBatch.Begin();
 			string fps = string.Format("FPS: {0}", frameCounter.AverageFramesPerSecond);
 			spriteBatch.DrawString(font, fps, new Vector2(10.0f, 10.0f), Color.White);
-			string x = string.Format("x: {0}", drawEngine.pos.X);
+			string x = string.Format("x: {0}", viewport.centerMapPos.X);
 			spriteBatch.DrawString(font, x, new Vector2(10.0f, 30.0f), Color.White);
-			string y = string.Format("y: {0}", drawEngine.pos.Y);
+			string y = string.Format("y: {0}", viewport.centerMapPos.Y);
 			spriteBatch.DrawString(font, y, new Vector2(10.0f, 50.0f), Color.White);
-			string scale = string.Format("scale: {0}", drawEngine.scale);
+			string scale = string.Format("scale: {0}", viewport.scale);
 			spriteBatch.DrawString(font, scale, new Vector2(10.0f, 70.0f), Color.White);
 			spriteBatch.End();
 

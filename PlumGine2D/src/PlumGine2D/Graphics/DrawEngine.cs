@@ -13,15 +13,13 @@ namespace PlumGine2D.Graphics
 
 		public Vector2 realScreenResolution { get; private set; }
 
-		public float scale { get; private set; }
-
 		public Vector2 resScale { get; private set; }
-
-		public Vector2 pos { get; private set; }
 
 		private GraphicsDeviceManager graphics;
 
 		private List<DrawEngineExt> extensions = new List<DrawEngineExt>();
+
+		private List<Viewport> viewports = new List<Viewport>();
 
 		public DrawEngine(Engine engine, 
 		                  Vector2 logicScreenResolution, Vector2 realScreenResolution,
@@ -37,30 +35,16 @@ namespace PlumGine2D.Graphics
 
 			this.resScale = new Vector2(realScreenResolution.X / logicScreenResolution.X,
 				realScreenResolution.Y / logicScreenResolution.Y);
-			if (this.resScale.X > this.resScale.Y)
-			{
-				this.resScale = new Vector2(this.resScale.Y, this.resScale.Y);
-			}
-			else
-			{
-				this.resScale = new Vector2(this.resScale.X, this.resScale.X);
-			}
-			this.scale = 1.0f;
+		}
+
+		public void AddViewport(Viewport v)
+		{
+			viewports.Add(v);
 		}
 
 		public void AddExtension(DrawEngineExt ext)
 		{
 			extensions.Add(ext);
-		}
-
-		public void SetView(Vector2 newPos)
-		{
-			this.pos = newPos;
-		}
-
-		public void SetScale(float newScale)
-		{
-			this.scale = newScale;
 		}
 
 		public virtual void LoadContent(ContentManager content)
@@ -75,9 +59,20 @@ namespace PlumGine2D.Graphics
 		{
 			spriteBatch.Begin();
 
-			foreach (DrawEngineExt dee in extensions)
+			foreach (Viewport v in viewports)
 			{
-				dee.Draw(spriteBatch, resScale * scale, pos, realScreenResolution);
+				// count scale, pos and realScreenResolution based on viewport
+				Vector2 screenSize = new Vector2(v.rectOnScreen.Width, 
+					v.rectOnScreen.Height) * resScale;
+				Vector2 mapSize = new Vector2(v.rectOnMap.Width, v.rectOnMap.Height);
+				Vector2 scale = screenSize / mapSize;
+
+				// draw all extensions
+				foreach (DrawEngineExt dee in extensions)
+				{
+					dee.Draw(spriteBatch, scale, v.centerMapPos,
+						screenSize);
+				}
 			}
 
 			spriteBatch.End();
