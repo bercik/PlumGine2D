@@ -18,14 +18,9 @@ namespace PlumGine2D.Graphics
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, Vector2 scale, 
-		                          Vector2 centerScreenPos, Vector2 screenSize)
+		                          Vector2 centerScreenPos, Vector2 screenSize,
+		                          Rectangle mapRect)
 		{
-			Vector2 mapSize = screenSize / scale;
-			Vector2 halfMapSize = mapSize * 0.5f;
-			Rectangle mapRect = new Rectangle((int)(centerScreenPos.X - halfMapSize.X),
-				                    (int)(centerScreenPos.Y - halfMapSize.Y), 
-				                    (int)mapSize.X, (int)mapSize.Y);
-
 			List<Chunk> chunks = drawEngine.engine.chunkManager.getChunksInRect(mapRect);
 
 			for (int i = 0; i < chunks.Count; ++i)

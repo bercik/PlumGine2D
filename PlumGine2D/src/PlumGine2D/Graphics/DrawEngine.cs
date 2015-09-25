@@ -66,40 +66,28 @@ namespace PlumGine2D.Graphics
 				Vector2 screenSize = new Vector2(v.rectOnScreen.Width, 
 					                     v.rectOnScreen.Height) * resScale;
 
-				/*RenderTarget2D target = new RenderTarget2D(graphics.GraphicsDevice,
-					                        (int)screenSize.X, (int)screenSize.Y);*/
 				v.AddRenderTarget(graphics.GraphicsDevice, 
 					new Point((int)screenSize.X, (int)screenSize.Y));
-				//graphics.GraphicsDevice.SetRenderTarget(target);
 				graphics.GraphicsDevice.SetRenderTarget(v.GetTarget());
-
-				Vector2 mapSize = new Vector2(v.rectOnMap.Width, v.rectOnMap.Height);
-				Vector2 scale = screenSize / mapSize;
-				if (scale.X < scale.Y)
-				{
-					scale = new Vector2(scale.X, scale.X);
-				}
-				else
-				{
-					scale = new Vector2(scale.Y, scale.Y);
-				}
 
 				spriteBatch.Begin();
 
 				// draw all extensions
 				foreach (DrawEngineExt dee in extensions)
 				{
-					dee.Draw(spriteBatch, scale, v.centerMapPos,
-						screenSize);
+					dee.Draw(spriteBatch, v.drawScale * v.scale, v.centerMapPos,
+						screenSize, v.rectOnMap);
 				}
 
 				spriteBatch.End();
 
 				textures.Add(v.GetTarget());
 
-				positions.Add(new Vector2(v.rectOnScreen.X, v.rectOnScreen.Y));
+				Vector2 position = new Vector2(v.rectOnScreen.X, v.rectOnScreen.Y)
+				                   * resScale;
+				positions.Add(position);
 			}
-				
+
 			graphics.GraphicsDevice.SetRenderTarget(null);
 			graphics.GraphicsDevice.Clear(Color.Pink);
 			spriteBatch.Begin();

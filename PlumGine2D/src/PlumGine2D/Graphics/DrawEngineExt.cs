@@ -18,7 +18,8 @@ namespace PlumGine2D.Graphics
 		public abstract void LoadContent(ContentManager content);
 
 		public abstract void Draw(SpriteBatch spriteBatch, Vector2 scale, 
-		                          Vector2 centerScreenPos, Vector2 screenSize);
+		                          Vector2 centerScreenPos, Vector2 screenSize,
+		                          Rectangle mapRect);
 
 		public abstract void Update(GameTime gameTime);
 	}

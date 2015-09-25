@@ -29,6 +29,7 @@ namespace PlumGine2D
 	public class Game1 : Game
 	{
 		private bool v1 = true;
+		PlumGine2D.Graphics.Viewport v;
 
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
@@ -47,12 +48,12 @@ namespace PlumGine2D
 
 			engine = new Engine(new Point(1600, 900), new Point(10, 10));
 			drawEngine = new DrawEngine(engine, new Vector2(1600.0f, 900.0f), 
-				new Vector2(1600.0f, 900.0f), false, graphics);
+				new Vector2(1600.0f, 200.0f), false, graphics);
 			drawEngine.AddExtension(new BasicDrawEngine(drawEngine));
 			viewport1 = new PlumGine2D.Graphics.Viewport(
-				new Rectangle(0, 0, 800, 900), new Rectangle(0, 0, 1600, 900));
+				new Rectangle(0, 0, 800, 900), new Point(1600, 900));
 			viewport2 = new PlumGine2D.Graphics.Viewport(
-				new Rectangle(800, 0, 800, 900), new Rectangle(0, 0, 1600, 900));
+				new Rectangle(800, 0, 800, 900), new Point(800, 900));
 
 			drawEngine.AddViewport(viewport1);
 			drawEngine.AddViewport(viewport2);
@@ -119,7 +120,6 @@ namespace PlumGine2D
 			}
 			#endif
 			// TODO: Add your update logic here
-			PlumGine2D.Graphics.Viewport v;
 			if (v1)
 			{
 				v = viewport1;
@@ -190,11 +190,11 @@ namespace PlumGine2D
 			spriteBatch.Begin();
 			string fps = string.Format("FPS: {0}", frameCounter.AverageFramesPerSecond);
 			spriteBatch.DrawString(font, fps, new Vector2(10.0f, 10.0f), Color.White);
-			string x = string.Format("x: {0}", viewport1.centerMapPos.X);
+			string x = string.Format("x: {0}", v.centerMapPos.X);
 			spriteBatch.DrawString(font, x, new Vector2(10.0f, 30.0f), Color.White);
-			string y = string.Format("y: {0}", viewport1.centerMapPos.Y);
+			string y = string.Format("y: {0}", v.centerMapPos.Y);
 			spriteBatch.DrawString(font, y, new Vector2(10.0f, 50.0f), Color.White);
-			string scale = string.Format("scale: {0}", viewport1.scale);
+			string scale = string.Format("scale: {0}", v.scale);
 			spriteBatch.DrawString(font, scale, new Vector2(10.0f, 70.0f), Color.White);
 			spriteBatch.End();
 
