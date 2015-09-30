@@ -11,26 +11,26 @@ namespace PlumGine2D.Graphics
 		public Rectangle rectOnScreen { get; private set; }
 
 		// względem logicScreenResolution
-		public Point originalRectOnMapSize { get; set; }
+		private Point originalRectOnMapSize { get; set; }
 
 		public Rectangle rectOnMap { get; private set; }
 
 		private RenderTarget2D target = null;
 
 		// względem rectOnMap
-		private float _scale;
+		private float _zoom;
 
-		public float scale
+		public float zoom
 		{ 
 			get
 			{
-				return _scale;
+				return _zoom;
 			}
 			set
 			{
-				_scale = value;
-				Vector2 newSize = new Vector2(originalRectOnMapSize.X / scale,
-					                  originalRectOnMapSize.Y / scale);
+				_zoom = value;
+				Vector2 newSize = new Vector2(originalRectOnMapSize.X / zoom,
+					                  originalRectOnMapSize.Y / zoom);
 				Vector2 halfNewSize = newSize * 0.5f;
 				Vector2 centerPos = 
 					new Vector2(_centerMapPos.X, _centerMapPos.Y);
@@ -66,13 +66,13 @@ namespace PlumGine2D.Graphics
 		                Vector2 centerMapPos = default(Vector2))
 		{
 			this.rectOnScreen = rectOnScreen;
-			this.originalRectOnMapSize = new Point(rectOnMapSize.X, rectOnMapSize.Y);
+			this.originalRectOnMapSize = rectOnMapSize;
 			this.centerMapPos = centerMapPos;
-			this.scale = 1.0f;
+			this.zoom = 1.0f;
 
 			this.drawScale = new Vector2(
 				(float)rectOnScreen.Width / (float)rectOnMapSize.X,
-				(float)rectOnScreen.Height / (float)rectOnMapSize.Y);				
+				(float)rectOnScreen.Height / (float)rectOnMapSize.Y);
 		}
 
 		public void AddRenderTarget(GraphicsDevice device, Point screenSize)

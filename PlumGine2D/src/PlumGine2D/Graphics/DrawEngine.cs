@@ -72,11 +72,13 @@ namespace PlumGine2D.Graphics
 
 				spriteBatch.Begin();
 
+				float minResScale = Math.Min(resScale.X, resScale.Y);
+
 				// draw all extensions
 				foreach (DrawEngineExt dee in extensions)
 				{
-					dee.Draw(spriteBatch, v.drawScale * v.scale, v.centerMapPos,
-						screenSize, v.rectOnMap);
+					dee.Draw(spriteBatch, v.drawScale * v.zoom * minResScale,
+						v.centerMapPos, screenSize);
 				}
 
 				spriteBatch.End();

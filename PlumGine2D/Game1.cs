@@ -48,7 +48,7 @@ namespace PlumGine2D
 
 			engine = new Engine(new Point(1600, 900), new Point(10, 10));
 			drawEngine = new DrawEngine(engine, new Vector2(1600.0f, 900.0f), 
-				new Vector2(1600.0f, 200.0f), false, graphics);
+				new Vector2(1600.0f, 450.0f), false, graphics);
 			drawEngine.AddExtension(new BasicDrawEngine(drawEngine));
 			viewport1 = new PlumGine2D.Graphics.Viewport(
 				new Rectangle(0, 0, 800, 900), new Point(1600, 900));
@@ -152,16 +152,16 @@ namespace PlumGine2D
 			}
 			if (state.IsKeyDown(Keys.OemPlus))
 			{
-				if (v.scale < 3.0f)
+				if (v.zoom < 3.0f)
 				{
-					v.scale = v.scale * 1.01f;
+					v.zoom = v.zoom * 1.01f;
 				}
 			}
 			if (state.IsKeyDown(Keys.OemMinus))
 			{
-				if (v.scale > 0.3f)
+				if (v.zoom > 0.3f)
 				{
-					v.scale = v.scale * 0.99f;
+					v.zoom = v.zoom * 0.99f;
 				}
 			}
 
@@ -194,7 +194,7 @@ namespace PlumGine2D
 			spriteBatch.DrawString(font, x, new Vector2(10.0f, 30.0f), Color.White);
 			string y = string.Format("y: {0}", v.centerMapPos.Y);
 			spriteBatch.DrawString(font, y, new Vector2(10.0f, 50.0f), Color.White);
-			string scale = string.Format("scale: {0}", v.scale);
+			string scale = string.Format("scale: {0}", v.zoom);
 			spriteBatch.DrawString(font, scale, new Vector2(10.0f, 70.0f), Color.White);
 			spriteBatch.End();
 
